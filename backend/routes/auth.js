@@ -54,6 +54,8 @@ router.get('/callback', async (req, res) => {
 
         const { access_token, refresh_token, expires_in } = data;
 
+        console.log(access_token);
+
         res.redirect(`${process.env.FRONTEND_URL}/dashboard?access_token=${access_token}&refresh_token=${refresh_token}&expires_in=${expires_in}`);
     } catch (err) {
         console.error(err.response?.data || err.message);
