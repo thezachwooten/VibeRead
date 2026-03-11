@@ -55,4 +55,26 @@ router.get('/top-tracks', requireToken, async (req, res) => {
     }
 });
 
+// Acquire user's top artists: GET -> /top-artists
+router.get('/top-artists', requireToken, async (req, res) => {
+    const TOP_ARTISTS_URL = 'https://api.spotify.com/v1/me/top/artists';
+
+    const token = req.accessToken;
+    const { time_range = 'medium_term', limit = 50 } = req.query;
+
+    try {
+        const { data } = await axios.get(TOP_TRACKS_URL, {
+            headers: {
+                'Authorization' : `Bearer ${token}`
+            },
+            params: {time_range, limit}
+        })
+
+        res.json(data);
+    } catch (err) {
+        console.error(err.response?.data || err.message);
+        res.status(500).json({ error: 'Failed to fetch top artists' })
+    }
+});
+
 export default router
