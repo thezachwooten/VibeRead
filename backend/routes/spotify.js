@@ -77,4 +77,57 @@ router.get('/top-artists', requireToken, async (req, res) => {
     }
 });
 
+// Acquire all users data and clean into one simple format for frontend: GET -> /summary
+router.get('/summary', requireToken, async(req, res) => {
+    const token = req.accessToken;
+
+    const {time_range = 'medium_term', limit = 50} = req.query;
+
+    try {
+        const [profileRes, tracksRes, artistsRes] = await Promise.all([
+            axios.get('https://api.spotify.com/v1/me', {headers : {authorization : `Bearer ${token}`}}),
+            axios.get('https://api.spotify.com/v1/me/top/tracks', {headers : {authorization : `Bearer ${token}`},
+            params: {time_range, limit}}),
+            axios.get('https://api.spotify.com/v1/me/top/artists', {headers : {authorization : `Bearer ${token}`},
+            params: {time_range, limit}})
+        ])
+
+        // Get the info from top track result we need
+        const trackSummary = tracksRes.data.items.map(t => ({
+            id: t.id,
+            name: t.name,
+            artist: t.artists[0].name,
+            image: t.album.images[1]?.url,
+            popularity: t.popularity
+        }));
+
+        // Get the info from top artists we need
+        const artistsSummary = artistsRes.data.items.map(t => ({
+            name: t.name,
+            genres: t.genres || [],
+            image: t.images[1]?.url
+        }));
+
+        // Get the tracksIds together
+        const trackIds = trackSummary.map(t => t.id).join(',');
+
+        const username = profileRes.data.display_name;
+        const userImg = profileRes.data.images[0].url
+        
+        const summary = {
+            profile : {name: username, image: userImg},
+            topTracks: trackSummary,
+            topArtists: artistsSummary,
+            timeRange: time_range
+        }
+
+        res.json(summary);
+
+
+    } catch (err) {
+        console.error(err.response?.data || err.message);
+        res.status(500).json({error : 'Failed to fetch summary'})
+    }
+});
+
 export default router
