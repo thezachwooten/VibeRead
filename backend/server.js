@@ -7,6 +7,7 @@ dotenv.config();
 // ROUTE IMPORTS
 import AuthRoute from './routes/auth.js'
 import SpotifyRoute from './routes/spotify.js'
+import AnalysisRoute from './routes/analysis.js'
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.get('/', (req, res) => {
 // ROUTES
 app.use('/auth', AuthRoute);
 app.use('/spotify', SpotifyRoute);
+app.use('/analysis', AnalysisRoute);
 
 
 app.listen(PORT, () => {

@@ -1,4 +1,30 @@
-# 
 
-GET http://127.0.0.1:3001/spotify/summary
-Authorization: Bearer BQAb_1miUQpDzP9PnV7OwsP91_DPwCSGSV61FgsJEVW_v1u955Zfl-BAH4qrdiyRxoLa8kzt5g10sceWndkvjCPMAC3ymq32tJDl2HIt_UD0gpM6arPPhev2uAOOL34zBDNhF99qTbB0a3Di-4c9hEw2xocDTzULlGJJdlxzh1UZ8lRhgUSd7MCk4uZ2ALyEN_rXg4gm0gX99zCEcL-fogr8AG_QOvr5fYj_XtGvYc8t7xEufIEOEQScX07pJQe4M1AQgw8&refresh_token=AQDKlhJ8e_ndYC5m6Kvf6U9XxUNa65KvrRBKPmf-hwLC0gnCcu0YTdp6Jw8WPWay5p5XADjt-Zst34ehngE_TirWCNKp9g7L2kcHU_2D-Y858OsoWl0KRtoeysiBBGG0Nik&expires_in=3600
+# test vibe
+POST http://127.0.0.1:3001/analysis/vibe
+Content-Type: application/json
+
+{
+    "topTracks": [
+        { "name": "Raining Again", "artist": "Staind" },
+        { "name": "Street Carp", "artist": "Deftones" },
+        { "name": "Kryptonite", "artist": "3 Doors Down" }
+    ],
+    "topArtists": [
+        { "name": "Deftones", "genres": ["nu metal", "alternative metal"] },
+        { "name": "Staind", "genres": ["post-grunge", "alternative metal"] }
+    ],
+    "timeRange": "medium_term"
+}
+
+# HTTP/1.1 200 OK
+# X-Powered-By: Express
+# Access-Control-Allow-Origin: *
+# Content-Type: application/json; charset=utf-8
+# Content-Length: 2236
+# ETag: W/"8bc-eB3D4Fc6Es9CNut/5uufC7XMib4"
+# Date: Fri, 13 Mar 2026 04:15:28 GMT
+# Connection: close
+
+# {
+#   "result": "Based on this data, your music personality can be described as **\"The Melodic Brooder.\"** You gravitate toward the heavy, atmospheric, and emotionally charged sounds of the late 90s and early 2000s.\n\nHere is a breakdown of your musical DNA:\n\n### 1. The \"Alternative Era\" Loyalist\nYour top tracks and artists suggest you are deeply rooted in the **Post-Grunge and Nu-Metal era.** You aren't just listening to these tracks for nostalgia; your \"medium_term\" data shows they are your current rotation. You likely value the specific \"crunch\" of early 2000s guitar production and the raw, unpolished vocal delivery of that time.\n\n### 2. High Emotional Intelligence (with an Edge)\nThe presence of **Staind** and **Deftones** indicates a preference for music that explores the darker or more introspective side of the human experience. \n*   **Staind** represents the \"raw and relatable\" side of your taste—music for when you're feeling reflective or dealing with a bit of angst.\n*   **Deftones** adds a layer of sophistication. It shows you enjoy \"Atmospheric Heavy\"—music that is loud and aggressive but also dreamy, sensual, and textural.\n\n### 3. The \"Classic Alt\" Balance\nIncluding **\"Kryptonite\" by 3 Doors Down** alongside Deftones shows that you aren't a total \"metal elitist.\" You have a soft spot for big, soaring choruses and radio-friendly hooks. You enjoy tracks that you can sing along to at full volume just as much as you enjoy the moody, wall-of-sound energy of **\"Street Carp.\"**\n\n### 4. Your Sonic Aesthetic: \"Grey Skies and Leather Jackets\"\nYour music choice suggests a personality that finds comfort in the \"rainy day\" vibe (literally, with **\"Raining Again\"**). You likely prefer a bit of grit and minor-key melodies over sugary pop. You appreciate music that feels cathartic—songs that let you feel the weight of the world and then help you shake it off through a heavy riff.\n\n**The Verdict:**\nYou are likely a person who values **authenticity and intensity.** You don't do \"background music.\" If you're listening, you want to *feel* it—whether that feeling is the haunting atmosphere of Chino Moreno’s vocals or the anthemic energy of a 2000s rock hit."
+# }
