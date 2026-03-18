@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export function useSpotifyAuth() {
     const [accessToken, setAccessToken] = useState(null);
+    const [status, setStatus] = useState('loading');
 
     useEffect(() => {
         // grab token from URL
@@ -13,16 +14,21 @@ export function useSpotifyAuth() {
         if (token){
             setAccessToken(token);
 
-            console.log(`Access token: ${accessToken}`);
-
             sessionStorage.setItem('spotify_access_token', token)
 
             window.history.replaceState(null, "", window.location.pathname);
+
+            setStatus('done');
         } else {
-            const stored = sessionStorage.getItem('spotify_access_token')
-            if (stored) setAccessToken(stored)
+            const stored = sessionStorage.getItem('spotify_access_token');
+            if (stored) {
+                setAccessToken(stored);
+                setStatus('done');
+            } else {
+                setStatus('error');
+            }
         }
     }, [])
 
-    return { accessToken }
+    return { accessToken, status }
 }
