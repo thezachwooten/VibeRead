@@ -4,6 +4,7 @@ dotenv.config();
 
 import express from 'express'
 import { GoogleGenerativeAI } from '@google/generative-ai'
+import rateLimit from 'express-rate-limit'
 
 const router = express.Router();
 
@@ -11,8 +12,14 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: 'gemini-3-flash-preview' });
 
 // TODO: add rate limiting before deployment
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 10, // max 10 requests per 15 minutes
+    message: { error: 'Too many requests, please try again later' }
+});
 
-router.post('/vibe', async (req, res) => {
+
+router.post('/vibe', limiter, async (req, res) => {
 
     const musicData = req.body;
 
