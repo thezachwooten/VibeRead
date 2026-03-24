@@ -17,7 +17,7 @@ export default function App() {
         <h1>Welcome</h1>
 
         <div className={styles.spotifyLoginCard}>
-          <p>Log in with Spotify</p>
+          <p>Log in with Spotify (Not available due to spotify api rules, request a demo of this directly from me!)</p>
           <button onClick={handleSpotifyLogin}>Login</button>
         </div>
 
