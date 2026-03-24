@@ -16,7 +16,7 @@ export default function Dashboard() {
     useEffect(() => {
         if (mode === 'demo') {
             setMusicData(demoData[0]);
-            setAnalysis(demoAnalysis);
+            setAnalysis(demoAnalysis[0]);
             setFetchStatus('done')
             return;
         }
