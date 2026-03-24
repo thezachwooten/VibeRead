@@ -3,7 +3,7 @@ import styles from './styles/Login.module.css';
 export default function App() {
   const handleDemo = () => {
     sessionStorage.setItem('mode', 'demo');
-    window.location.href = '/dashboard';
+    window.location.href = '/#/dashboard';
   }
 
   const handleSpotifyLogin = () => {
