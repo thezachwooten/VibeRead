@@ -1,0 +1,85 @@
+/* Login.module.css */
+
+/* Center everything on the page */
+.loginPage {
+  margin: 0;
+  height: 100vh;
+  width: 100vw; /* fix: full viewport width */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #121212; /* Spotify dark */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Card container */
+.loginCard {
+  width: 360px;
+  background-color: #181818;
+  border-radius: 16px;
+  padding: 30px 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+  text-align: center;
+}
+
+/* Heading inside card */
+.loginCard h1 {
+  color: white;
+  margin: 0;
+  font-size: 28px;
+  letter-spacing: 0.5px;
+}
+
+/* Inner cards for Spotify / Demo buttons */
+.spotifyLoginCard,
+.demoModeLoginCard {
+  background-color: #202020;
+  padding: 15px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.spotifyLoginCard p,
+.demoModeLoginCard p {
+  color: #b3b3b3;
+  font-size: 14px;
+  margin: 0;
+}
+
+/* Buttons */
+button {
+  border: none;
+  padding: 10px;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Spotify button */
+.spotifyLoginCard button {
+  background-color: #1DB954;
+  color: black;
+}
+
+.spotifyLoginCard button:hover {
+  background-color: #1ed760;
+  transform: scale(1.03);
+}
+
+/* Demo button */
+.demoModeLoginCard button {
+  background-color: transparent;
+  color: white;
+  border: 1px solid #535353;
+}
+
+.demoModeLoginCard button:hover {
+  border-color: white;
+  transform: scale(1.03);
+}

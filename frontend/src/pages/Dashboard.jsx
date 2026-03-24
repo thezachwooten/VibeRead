@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { useSpotifyAuth } from '../hooks/useSpotifyAuth'
 import axios from 'axios'
 import '../styles/Dashboard.css'
+import demoData from '../../demoData/demo-data.js'
+import demoAnalysis from '../../demoData/demo-analysis.js'; 
 
 export default function Dashboard() {
     const [musicData, setMusicData] = useState(null);
@@ -9,34 +11,56 @@ export default function Dashboard() {
     const [fetchStatus, setFetchStatus] = useState('idle');
     const { accessToken, status: authStatus } = useSpotifyAuth();
 
+    const mode = sessionStorage.getItem('mode');
     
     useEffect(() => {
+        if (mode === 'demo') {
+            setMusicData(demoData[0]);
+            setAnalysis(demoAnalysis);
+            setFetchStatus('done')
+            return;
+        }
+        // Only run if the token exists AND authStatus is 'done'
+        if (!accessToken || authStatus !== 'done') return;
+
         const fetchData = async () => {
             try {
                 setFetchStatus('loading');
-                const fetchedMusicData = await axios.get('http://localhost:3001/spotify/summary', {headers : {Authorization: `Bearer ${accessToken}`}});
-                if (fetchedMusicData) {
-                    setMusicData(fetchedMusicData.data);
-                    const fetchedAnalysis = await axios.post('http://localhost:3001/analysis/vibe', fetchedMusicData.data, {headers : {Authorization: `Bearer ${accessToken}`}});
-                    setAnalysis(fetchedAnalysis.data);
-                    console.log('musicData:', fetchedMusicData.data);
-                    console.log('analysis:', fetchedAnalysis.data);
-                    setFetchStatus('done');
-                }
+
+                const fetchedMusicData = await axios.get(
+                    'http://localhost:3001/spotify/summary',
+                    { headers: { Authorization: `Bearer ${accessToken}` } }
+                );
+
+                setMusicData(fetchedMusicData.data);
+
+                const fetchedAnalysis = await axios.post(
+                    'http://localhost:3001/analysis/vibe',
+                    fetchedMusicData.data,
+                    { headers: { Authorization: `Bearer ${accessToken}` } }
+                );
+
+                setAnalysis(fetchedAnalysis.data);
+                setFetchStatus('done');
+
             } catch (err) {
                 console.error(err);
                 setFetchStatus('error');
             }
         }
-        fetchData();
-    }, [accessToken]);
 
-    if (!accessToken) return <div>Not logged in</div>
+        fetchData();
+    }, [accessToken, authStatus]);
+
+    if (!accessToken && mode !== 'demo') return <div>Not logged in</div>
     if (authStatus === 'loading') return <div>Loading...</div>
-    if (authStatus === 'error') return <div>Not logged in</div>
+    if (authStatus === 'error' && mode !== 'demo') return <div>Not logged in</div>
     if (fetchStatus === 'loading') return <div>Loading your vibe...</div>
     if (fetchStatus === 'error') return <div>Something went wrong</div>
 
+    if (!musicData || !analysis) {
+        return <div>Loading your vibe...</div>;
+    }
 
     return (
         <div className="dashboard">
@@ -53,7 +77,7 @@ export default function Dashboard() {
 
             <div>
                 <h3>Personality Traits</h3>
-                <div className='traits-section>'>
+                <div className='traits-section'>
                     {analysis.traits.map((trait, i) => (
                         <div key={i} className='trait'>
                             <div className='trait-header'>
@@ -61,12 +85,9 @@ export default function Dashboard() {
                                 <span>{Math.round(trait.score * 100)}</span>
                             </div>
                             <div className="trait-bar-bg">
-                                <div 
-                                    className="trait-bar-fill"
-                                    style={{ width: `${trait.score * 100}%` }}
-                                />
-                                <p className="trait-description">{trait.description}</p>
+                                <div className="trait-bar-fill" style={{ width: `${trait.score * 100}%` }} />
                             </div>
+                            <p className="trait-description">{trait.description}</p>
                         </div>
                     ))}
                 </div>
