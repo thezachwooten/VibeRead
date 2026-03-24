@@ -1,2 +1,2 @@
 # VibeRead
-VibeRead pulls your Spotify listening history and uses AI to decode your music personality — your energy levels, emotional tendencies, genre patterns, and the things you never noticed about your own taste.
+VibeRead pulls your Spotify listening history and uses AI to decode your music personality — your energy levels, emotional tendencies, genre patterns, and the things you never noticed about your own taste. Due to limitations with using Spotify API, I cannot allow users to login via spotify, so I have included a demo mode for portfolio purposes. If you would like a demo of the working backend, please just request one from me and we can arrange something!
